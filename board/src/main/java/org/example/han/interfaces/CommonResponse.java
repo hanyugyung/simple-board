@@ -18,17 +18,21 @@ public class CommonResponse<T> {
                 .build();
     }
 
-    public static <T> CommonResponse<T> from(DetailResponseCode detailResponseCode) {
+    public static <T> CommonResponse<T> from(T data) {
         return (CommonResponse<T>) CommonResponse.builder()
-                .detailCode(detailResponseCode.detailCode)
-                .message(detailResponseCode.message)
+                .detailCode(DetailResponseCode.CODE_200.detailCode)
+                .message(DetailResponseCode.CODE_200.message)
+                .data(data)
                 .build();
     }
 
     @Getter
     @RequiredArgsConstructor
     public enum DetailResponseCode {
-        CODE_201("201", "created"),
+        CODE_200("200", "ok"),
+        CODE_200_CREATED("200_C", "created"),
+        CODE_200_UPDATED("200_U", "updated"),
+        CODE_200_DELETED("200_D", "deleted"),
         CODE_500("500-A", "내부 서버 에러!!");
 
         private final String detailCode;

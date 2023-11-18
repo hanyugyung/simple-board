@@ -2,6 +2,7 @@ package org.example.han.domain.board;
 
 import lombok.RequiredArgsConstructor;
 import org.example.han.common.code.CustomErrorMessage;
+import org.example.han.domain.user.User;
 import org.example.han.infrastructure.BoardRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public long createBoard(BoardDomainDto.CreateBoard createBoard) {
+    public long createBoard(BoardDomainDto.CreateBoardCommand createBoard) {
         return boardRepository
                 .save(createBoard.toEntity())
                 .getId();
@@ -22,16 +23,16 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BoardDomainDto.GetBoard> getBoardList(int startIndex) {
+    public List<BoardDomainDto.GetBoardInfo> getBoardList(int startIndex) {
         return boardRepository.findByIdBetween(startIndex, startIndex+9)
                 .stream()
-                .map(BoardDomainDto.GetBoard::of)
+                .map(BoardDomainDto.GetBoardInfo::of)
                 .toList();
     }
 
     @Override
     @Transactional
-    public long updateBoard(Long id, BoardDomainDto.UpdateBoard updateBoard, Long requesterId) {
+    public long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand updateBoard, Long requesterId) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.NOT_FOUND_BOARD.getErrorMessage()));
 
@@ -53,8 +54,8 @@ public class BoardServiceImpl implements BoardService {
         return id;
     }
 
-    private void checkBoardOwner(Long ownerId, Long requesterId) {
-        if(!ownerId.equals(requesterId)) {
+    private void checkBoardOwner(User owner, Long requesterId) {
+        if(!requesterId.equals(owner.getId())) {
             throw new IllegalStateException(CustomErrorMessage.INVALID_ACCESS_TO_BOARD.getErrorMessage());
         }
     }

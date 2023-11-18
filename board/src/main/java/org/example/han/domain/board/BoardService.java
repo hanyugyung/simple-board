@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface BoardService {
 
-    long createBoard(BoardDomainDto.CreateBoard createBoard);
+    long createBoard(BoardDomainDto.CreateBoardCommand createBoard);
 
-    List<BoardDomainDto.GetBoard> getBoardList(int startIndex);
+    List<BoardDomainDto.GetBoardInfo> getBoardList(int startIndex);
 
-    long updateBoard(Long id, BoardDomainDto.UpdateBoard updateBoard, Long requesterId);
+    long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand updateBoard, Long requesterId);
 
     long deleteBoard(Long id, Long requesterId);
 }

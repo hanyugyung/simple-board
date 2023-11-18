@@ -11,8 +11,8 @@ public class BoardApiDto {
         private String title;
         private String content;
 
-        public BoardDomainDto.CreateBoard toDomainDto() {
-            return new BoardDomainDto.CreateBoard(this.title, this.content);
+        public BoardDomainDto.CreateBoardCommand toDomainDto() {
+            return new BoardDomainDto.CreateBoardCommand(this.title, this.content);
         }
     }
 
@@ -23,18 +23,22 @@ public class BoardApiDto {
         private String content;
         private ZonedDateTime createdAt;
         private ZonedDateTime updatedAt;
-        private String createdBy;
-        private String updatedBy;
+        private String createUserId;
+        private String createUserName;
+        private String updateUserId;
+        private String updateUserName;
 
-        public static GetBoardResponse fromDomainDto(BoardDomainDto.GetBoard dto) {
+        public static GetBoardResponse from(BoardDomainDto.GetBoardInfo dto) {
             return new GetBoardResponse(
                     dto.getId()
                     , dto.getTitle()
                     , dto.getContent()
                     , dto.getCreatedAt()
                     , dto.getUpdatedAt()
-                    , dto.getCreatedBy()
-                    , dto.getUpdatedBy()
+                    , dto.getCreateUserId()
+                    , dto.getCreateUserName()
+                    , dto.getUpdateUserId()
+                    , dto.getUpdateUserName()
             );
         }
     }
@@ -43,8 +47,8 @@ public class BoardApiDto {
         private String title;
         private String content;
 
-        public BoardDomainDto.UpdateBoard toDomainDto() {
-            return new BoardDomainDto.UpdateBoard(this.title, this.content);
+        public BoardDomainDto.UpdateBoardCommand toDomainDto() {
+            return new BoardDomainDto.UpdateBoardCommand(this.title, this.content);
         }
     }
 }

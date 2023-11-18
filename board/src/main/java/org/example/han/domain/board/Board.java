@@ -1,13 +1,13 @@
 package org.example.han.domain.board;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.han.common.code.CustomErrorMessage;
 import org.example.han.domain.Base;
+import org.example.han.domain.user.User;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.util.StringUtils;
@@ -24,10 +24,14 @@ public class Board extends Base {
     private String content;
 
     @CreatedBy
-    private Long createdBy;
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "createUserId")
+    private User createdBy;
 
     @LastModifiedBy
-    private Long updatedBy;
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "updateUserId")
+    private User updatedBy;
 
     public Board(String title, String content) {
         if(!StringUtils.hasText(title))

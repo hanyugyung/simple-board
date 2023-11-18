@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/boards")
+@RestController("/api/boards")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -34,7 +34,7 @@ public class BoardController {
         return ResponseEntity.ok(
                 CommonResponse.from(boardService.getBoardList(startIndex)
                         .stream()
-                        .map(BoardApiDto.GetBoardResponse::fromDomainDto)
+                        .map(BoardApiDto.GetBoardResponse::from)
                         .toList())
         );
     }

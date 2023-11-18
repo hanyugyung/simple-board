@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 public class BoardDomainDto {
 
     @AllArgsConstructor
-    public static class CreateBoard {
+    public static class CreateBoardCommand {
         private String title;
         private String content;
 
@@ -20,7 +20,7 @@ public class BoardDomainDto {
 
     @Getter
     @AllArgsConstructor
-    public static class GetBoard {
+    public static class GetBoardInfo {
         private Long id;
         private String title;
         private String content;
@@ -28,24 +28,29 @@ public class BoardDomainDto {
         private ZonedDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
         private ZonedDateTime updatedAt;
-        private String createdBy;
-        private String updatedBy;
+        private String createUserId;
+        private String createUserName;
+        private String updateUserId;
+        private String updateUserName;
 
         // FIXME use mapstruct
-        public static GetBoard of(Board board) {
-            return new GetBoard(board.getId()
+        public static GetBoardInfo of(Board board) {
+            return new GetBoardInfo(board.getId()
                     , board.getTitle()
                     , board.getContent()
                     , board.getCreatedAt()
                     , board.getUpdatedAt()
-                    , board.getCreatedBy()
-                    , board.getUpdatedBy());
+                    , board.getCreatedBy().getLoginId()
+                    , board.getCreatedBy().getName()
+                    , board.getUpdatedBy().getLoginId()
+                    , board.getUpdatedBy().getName()
+            );
         }
     }
 
     @Getter
     @AllArgsConstructor
-    public static class UpdateBoard {
+    public static class UpdateBoardCommand {
         private String title;
         private String content;
     }

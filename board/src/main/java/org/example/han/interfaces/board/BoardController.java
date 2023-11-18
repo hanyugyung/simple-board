@@ -47,7 +47,7 @@ public class BoardController {
         return ResponseEntity.ok(
                 CommonResponse.from(
                         CommonResponse.DetailResponseCode.CODE_200_UPDATED
-                        , boardService.updateBoard(id, request.toDomainDto())
+                        , boardService.updateBoard(id, request.toDomainDto(), 1l)
                 )
         );
     }
@@ -59,7 +59,7 @@ public class BoardController {
         return ResponseEntity.ok(
                 CommonResponse.from(
                         CommonResponse.DetailResponseCode.CODE_200_DELETED
-                        , boardService.deleteBoard(id)
+                        , boardService.deleteBoard(id, 1l)
                 )
         );
     }

@@ -8,7 +8,7 @@ public interface BoardService {
 
     List<BoardDomainDto.GetBoard> getBoardList(int startIndex);
 
-    long updateBoard(Long id, BoardDomainDto.UpdateBoard updateBoard);
+    long updateBoard(Long id, BoardDomainDto.UpdateBoard updateBoard, Long requesterId);
 
-    long deleteBoard(Long id);
+    long deleteBoard(Long id, Long requesterId);
 }

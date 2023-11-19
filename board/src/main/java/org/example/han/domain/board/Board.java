@@ -5,9 +5,10 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.han.common.code.CustomErrorMessage;
+import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.domain.Base;
 import org.example.han.domain.user.User;
+import org.example.han.interfaces.CommonResponse;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.util.StringUtils;
@@ -35,7 +36,7 @@ public class Board extends Base {
 
     public Board(String title, String content) {
         if(!StringUtils.hasText(title))
-            throw new IllegalArgumentException(CustomErrorMessage.INVALID_PARAMETER.getErrorMessage());
+            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
 
         this.title = title;
         this.content = content;
@@ -43,7 +44,7 @@ public class Board extends Base {
 
     public void updateBoard(String title, String content) {
         if(!StringUtils.hasText(title))
-            throw new IllegalArgumentException(CustomErrorMessage.INVALID_PARAMETER.getErrorMessage());
+            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
 
         this.title = title;
         this.content = content;

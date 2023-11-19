@@ -6,8 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.han.common.code.CustomErrorMessage;
+import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.domain.Base;
+import org.example.han.interfaces.CommonResponse;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.util.StringUtils;
 
@@ -18,7 +19,6 @@ import org.springframework.util.StringUtils;
 public class User extends Base {
 
     @NotBlank
-    @UniqueElements
     private String loginId;
 
     @NotBlank
@@ -33,7 +33,7 @@ public class User extends Base {
         if(!StringUtils.hasText(loginId)
         || !StringUtils.hasText(name)
         || !StringUtils.hasText(encodedPassword))
-            throw new IllegalArgumentException(CustomErrorMessage.INVALID_PARAMETER.getErrorMessage());
+            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
 
         this.loginId = loginId;
         this.name = name;

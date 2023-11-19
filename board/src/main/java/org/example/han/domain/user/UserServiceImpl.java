@@ -1,15 +1,55 @@
 package org.example.han.domain.user;
 
+import lombok.RequiredArgsConstructor;
+import org.example.han.common.auth.JwtConfigProperty;
+import org.example.han.common.auth.JwtGenerator;
+import org.example.han.common.exception.InvalidParameterException;
+import org.example.han.infrastructure.UserRepository;
+import org.example.han.interfaces.CommonResponse;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public long signUp(UserDomainDto.UserSignUpCommand dto) {
-        return 0;
+    private final UserRepository userRepository;
+
+    private final JwtConfigProperty jwtConfigProperty;
+
+    private void checkAvailableLoginId(String loginId) {
+        userRepository.findByLoginId(loginId)
+                .ifPresent(it -> {
+                    throw new InvalidParameterException(CommonResponse.CustomErrorMessage.USER_LOGIN_ID_ALREADY_EXISTED);
+                });
+    }
+
+    private User validateUserAndGet(String loginId, String password) {
+
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.USER_FAIL_LOGIN));
+
+        if (!passwordEncoder.matches(password, user.getEncodedPassword())) {
+            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.USER_FAIL_LOGIN);
+        }
+
+        return user;
     }
 
     @Override
-    public String login(UserDomainDto.UserLoginCommand dto) {
-        return null;
+    @Transactional
+    public long signUp(UserDomainDto.UserSignUpCommand command) {
+        checkAvailableLoginId(command.getLoginId());
+        return userRepository.save(command.toEntity(passwordEncoder)).getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String login(UserDomainDto.UserLoginCommand command) {
+        User user = validateUserAndGet(command.getUserId(), command.getPassword());
+        return JwtGenerator.generateToken(user.getId(), user.getLoginId(), user.getName(), jwtConfigProperty);
     }
 }

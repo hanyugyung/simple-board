@@ -1,17 +1,26 @@
 package org.example.han.domain.board;
 
 import lombok.RequiredArgsConstructor;
-import org.example.han.common.code.CustomErrorMessage;
+import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.domain.user.User;
 import org.example.han.infrastructure.BoardRepository;
+import org.example.han.interfaces.CommonResponse;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
+
+    private void checkBoardOwner(User owner, Long requesterId) {
+        if(!requesterId.equals(owner.getId())) {
+            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_ACCESS_TO_BOARD);
+        }
+    }
 
     @Override
     @Transactional
@@ -34,7 +43,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand updateBoard, Long requesterId) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.NOT_FOUND_BOARD.getErrorMessage()));
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.NOT_FOUND_BOARD));
 
         checkBoardOwner(board.getCreatedBy(), requesterId);
 
@@ -46,17 +55,11 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public long deleteBoard(Long id, Long requesterId) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.NOT_FOUND_BOARD.getErrorMessage()));
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.NOT_FOUND_BOARD));
 
         checkBoardOwner(board.getCreatedBy(), requesterId);
 
         boardRepository.delete(board);
         return id;
-    }
-
-    private void checkBoardOwner(User owner, Long requesterId) {
-        if(!requesterId.equals(owner.getId())) {
-            throw new IllegalStateException(CustomErrorMessage.INVALID_ACCESS_TO_BOARD.getErrorMessage());
-        }
     }
 }

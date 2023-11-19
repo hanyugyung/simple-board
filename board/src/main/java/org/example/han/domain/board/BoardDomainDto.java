@@ -24,9 +24,7 @@ public class BoardDomainDto {
         private Long id;
         private String title;
         private String content;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
         private ZonedDateTime createdAt;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
         private ZonedDateTime updatedAt;
         private String createUserId;
         private String createUserName;

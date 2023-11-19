@@ -4,24 +4,24 @@ server:
 jwt:
   secret-key: fadsdnfiew232938rfksl#$@#dsfsdnf
   issuer: han
-  expired-time: 180000 # 3분
+  expired-time: 1800000 # 3분
 
 
 # swaggerdoc
-#springdoc:
-#  version: v1.0.0
-#  packages-to-scan: org.example
-#  swagger-ui:
-#    path: /api-docs
-#    tags-sorter: alpha
-#    operations-sorter: alpha
-#  api-docs:
-#    path: /api-docs/json
-#    groups.enabled: true
-#  cache:
-#    disabled: true
-#  default-consumes-media-type: application/json;charset=UTF-8
-#  default-produces-media-type: application/json;charset=UTF-8
+springdoc:
+  version: v1.0.0
+  packages-to-scan: org.example.han
+  swagger-ui:
+    path: /api-docs
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs/json
+    groups.enabled: true
+  cache:
+    disabled: true
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
 
 spring:
   h2:
@@ -30,29 +30,25 @@ spring:
       path: /h2-console
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/mall-db
+    url: jdbc:h2:~/board-db
     username: sa
     password:
   jackson:
     default-property-inclusion: non_null
   jpa:
-    database: mysql
+    database: h2
     show-sql: true
     open-in-view: false
-    generate-ddl: true
     properties:
       jakarta:
         persistence:
           sharedCache:
             mode: ALL
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
         globally_quoted_identifiers: true
         query:
           in_clause_parameter_padding: true
     hibernate:
       use-new-id-generator-mappings: false
-      ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none

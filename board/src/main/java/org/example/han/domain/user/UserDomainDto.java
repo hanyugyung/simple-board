@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserDomainDto {
 
+    @Getter
     @AllArgsConstructor
     public static class UserSignUpCommand {
         private String loginId;

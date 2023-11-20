@@ -3,6 +3,7 @@ package org.example.han.domain.board;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.example.han.domain.user.User;
 
 import java.time.ZonedDateTime;
 
@@ -13,8 +14,8 @@ public class BoardDomainDto {
         private String title;
         private String content;
 
-        public Board toEntity() {
-            return new Board(this.title, this.content);
+        public Board toEntity(User createUser) {
+            return new Board(this.title, this.content, createUser);
         }
     }
 
@@ -26,9 +27,9 @@ public class BoardDomainDto {
         private String content;
         private ZonedDateTime createdAt;
         private ZonedDateTime updatedAt;
-        private String createUserId;
+        private String createUserLoginId;
         private String createUserName;
-        private String updateUserId;
+        private String updateUserLoginId;
         private String updateUserName;
 
         // FIXME use mapstruct

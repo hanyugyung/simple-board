@@ -39,7 +39,7 @@ public class BoardApiController {
             , @AuthenticationPrincipal AccessUser accessUser
     ) {
         return ResponseEntity.ok(
-                CommonResponse.success(boardService.createBoard(request.toDomainDto()))
+                CommonResponse.success(boardService.createBoard(request.toDomainDto(), accessUser.getId()))
         );
     }
 

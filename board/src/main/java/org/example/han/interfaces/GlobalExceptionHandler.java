@@ -45,7 +45,10 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({
+            IllegalStateException.class
+            , Exception.class
+    })
     public CommonResponse onException(Exception exception) {
         return CommonResponse.fail(exception.getMessage());
     }

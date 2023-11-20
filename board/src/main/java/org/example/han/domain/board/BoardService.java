@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    long createBoard(BoardDomainDto.CreateBoardCommand createBoard);
+    long createBoard(BoardDomainDto.CreateBoardCommand createBoard, Long requesterId);
 
     List<BoardDomainDto.GetBoardInfo> getBoardList(int startIndex);
 

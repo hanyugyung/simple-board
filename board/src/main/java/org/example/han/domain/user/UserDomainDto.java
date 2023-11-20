@@ -13,10 +13,10 @@ public class UserDomainDto {
         private String name;
         private String password;
 
-        private String profileUrl;
+        private String base64EncodedString;
 
         public User toEntity(PasswordEncoder passwordEncoder) {
-            return new User(this.loginId, this.name, passwordEncoder.encode(this.password), this.profileUrl);
+            return new User(this.loginId, this.name, passwordEncoder.encode(this.password), this.base64EncodedString);
         }
     }
 

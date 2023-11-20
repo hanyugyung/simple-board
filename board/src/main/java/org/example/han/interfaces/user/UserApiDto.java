@@ -31,10 +31,10 @@ public class UserApiDto {
         private String password;
 
         @Schema(description = "사용자 프로필")
-        private String profileUrl; // FIXME
+        private String base64EncodedString;
 
         public UserDomainDto.UserSignUpCommand toDomainDto() {
-            return new UserDomainDto.UserSignUpCommand(this.loginId, this.name, this.password, this.profileUrl);
+            return new UserDomainDto.UserSignUpCommand(this.loginId, this.name, this.password, this.base64EncodedString);
         }
     }
 

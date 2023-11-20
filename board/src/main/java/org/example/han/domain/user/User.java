@@ -27,9 +27,9 @@ public class User extends Base {
     @NotBlank
     private String encodedPassword;
 
-    private String profileUrl;
+    private String base64EncodedString;
 
-    public User(String loginId, String name, String encodedPassword, String profileUrl) {
+    public User(String loginId, String name, String encodedPassword, String base64EncodedString) {
         if(!StringUtils.hasText(loginId)
         || !StringUtils.hasText(name)
         || !StringUtils.hasText(encodedPassword))
@@ -38,6 +38,6 @@ public class User extends Base {
         this.loginId = loginId;
         this.name = name;
         this.encodedPassword = encodedPassword;
-        this.profileUrl = profileUrl;
+        this.base64EncodedString = base64EncodedString;
     }
 }

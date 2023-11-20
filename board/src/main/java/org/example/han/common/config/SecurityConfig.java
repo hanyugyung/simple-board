@@ -55,7 +55,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher("/api/boards")
                                 , new AntPathRequestMatcher("/api/boards/**")
-                        ).hasRole("USER")
+                        ).hasRole("user")
                         .anyRequest().permitAll()
                 )
                 .headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))

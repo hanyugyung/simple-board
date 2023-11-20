@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class JwtGenerator {
 
-    private static final List<String> roleNameList = List.of("USER");
+    private static final List<String> roleNameList = List.of("user");
 
     public static String generateToken(
             Long userId

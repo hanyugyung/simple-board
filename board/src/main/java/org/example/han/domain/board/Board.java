@@ -24,22 +24,22 @@ public class Board extends Base {
 
     private String content;
 
-    @CreatedBy
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "createUserId")
     private User createdBy;
 
-    @LastModifiedBy
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "updateUserId")
     private User updatedBy;
 
-    public Board(String title, String content) {
+    public Board(String title, String content, User createUser) {
         if(!StringUtils.hasText(title))
             throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
 
         this.title = title;
         this.content = content;
+        this.createdBy = createUser;
+        this.updatedBy = createUser;
     }
 
     public void updateBoard(String title, String content) {
@@ -48,5 +48,9 @@ public class Board extends Base {
 
         this.title = title;
         this.content = content;
+    }
+
+    public void updateLastModifier(User lastModifier) {
+        this.updatedBy = lastModifier;
     }
 }

@@ -50,9 +50,9 @@ public class BoardApiDto {
                     , dto.getContent()
                     , dto.getCreatedAt()
                     , dto.getUpdatedAt()
-                    , dto.getCreateUserId()
+                    , dto.getCreateUserLoginId()
                     , dto.getCreateUserName()
-                    , dto.getUpdateUserId()
+                    , dto.getUpdateUserLoginId()
                     , dto.getUpdateUserName()
             );
         }

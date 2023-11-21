@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.han.domain.board.BoardDomainDto;
+import org.example.han.domain.board.comment.CommentDomainDto;
 
 import java.time.ZonedDateTime;
 
@@ -71,6 +72,41 @@ public class BoardApiDto {
 
         public BoardDomainDto.UpdateBoardCommand toDomainDto() {
             return new BoardDomainDto.UpdateBoardCommand(this.title, this.content);
+        }
+    }
+
+    @Schema(description = "댓글 API 요청")
+    @Getter
+    public static class CreateCommentRequest {
+
+        @Schema(description = "댓글 내용")
+        @NotBlank(message = "댓글 내용은 필수 입력 값 입니다.")
+        private String comment;
+
+        public CommentDomainDto.CreateCommentCommand toDomainDto() {
+            return new CommentDomainDto.CreateCommentCommand(this.comment);
+        }
+    }
+
+    @Schema(description = "댓글 API 응답")
+    @Getter
+    @AllArgsConstructor
+    public static class GetCommentResponse {
+        private Long id;
+        private String comment;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+        private ZonedDateTime createdAt;
+        private String createUserId;
+        private String createUserName;
+
+        public static GetCommentResponse from(CommentDomainDto.GetCommentInfo dto) {
+            return new GetCommentResponse(
+                    dto.getId()
+                    , dto.getComment()
+                    , dto.getCreatedAt()
+                    , dto.getCreateUserLoginId()
+                    , dto.getCreateUserName()
+            );
         }
     }
 }

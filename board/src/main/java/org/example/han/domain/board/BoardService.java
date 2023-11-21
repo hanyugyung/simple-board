@@ -1,14 +1,18 @@
 package org.example.han.domain.board;
 
+import org.example.han.domain.board.comment.CommentDomainDto;
+
 import java.util.List;
 
 public interface BoardService {
 
-    long createBoard(BoardDomainDto.CreateBoardCommand createBoard, Long requesterId);
+    long createBoard(BoardDomainDto.CreateBoardCommand command, Long requesterId);
 
     List<BoardDomainDto.GetBoardInfo> getBoardList(int startIndex);
 
-    long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand updateBoard, Long requesterId);
+    long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand command, Long requesterId);
 
     long deleteBoard(Long id, Long requesterId);
+
+    CommentDomainDto.GetCommentInfo createComment(Long boardId, CommentDomainDto.CreateCommentCommand command, Long requesterId);
 }

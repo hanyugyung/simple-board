@@ -97,4 +97,24 @@ public class BoardApiController {
                 CommonResponse.success(boardService.deleteBoard(id, accessUser.getId()))
         );
     }
+
+    @Operation(summary = "댓글 작성", description = "댓글 작성 api 입니다.")
+    @SecurityRequirement(name = "Token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
+    })
+    @PostMapping("/{boardId}/comments")
+    public ResponseEntity<CommonResponse<BoardApiDto.GetCommentResponse>> createCommentToBoard(
+            @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token // 댓글은 인증뺄까....
+            , @PathVariable Long boardId
+            , @RequestBody @Valid BoardApiDto.CreateCommentRequest request
+            , @AuthenticationPrincipal AccessUser accessUser
+    ) {
+        return ResponseEntity.ok(
+                CommonResponse.success(BoardApiDto.GetCommentResponse.from(
+                        boardService.createComment(boardId, request.toDomainDto(), accessUser.getId())
+                ))
+        );
+    }
 }

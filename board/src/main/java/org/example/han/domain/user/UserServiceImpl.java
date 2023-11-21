@@ -52,4 +52,13 @@ public class UserServiceImpl implements UserService {
         User user = validateUserAndGet(command.getUserId(), command.getPassword());
         return JwtGenerator.generateToken(user.getId(), user.getLoginId(), user.getName(), jwtConfigProperty);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDomainDto.GetUserInfo getUser(Long requesterId) {
+        return UserDomainDto.GetUserInfo.of(
+                userRepository.findById(requesterId)
+                        .orElseThrow(() -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳"))
+        );
+    }
 }

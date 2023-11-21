@@ -6,4 +6,5 @@ public interface UserService {
 
     String login(UserDomainDto.UserLoginCommand dto);
 
+    UserDomainDto.GetUserInfo getUser(Long requesterId);
 }

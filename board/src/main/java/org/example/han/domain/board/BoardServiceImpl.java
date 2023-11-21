@@ -2,6 +2,8 @@ package org.example.han.domain.board;
 
 import lombok.RequiredArgsConstructor;
 import org.example.han.common.exception.InvalidParameterException;
+import org.example.han.domain.board.comment.Comment;
+import org.example.han.domain.board.comment.CommentDomainDto;
 import org.example.han.domain.user.User;
 import org.example.han.infrastructure.BoardRepository;
 import org.example.han.infrastructure.UserRepository;
@@ -28,14 +30,14 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public long createBoard(BoardDomainDto.CreateBoardCommand createBoard, Long requesterId) {
+    public long createBoard(BoardDomainDto.CreateBoardCommand command, Long requesterId) {
 
         User createUser = userRepository.findById(requesterId).orElseThrow(
-                () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...")
+                () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
         );
 
         return boardRepository
-                .save(createBoard.toEntity(createUser))
+                .save(command.toEntity(createUser))
                 .getId();
     }
 
@@ -50,18 +52,18 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand updateBoard, Long requesterId) {
+    public long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand command, Long requesterId) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.NOT_FOUND_BOARD));
 
         //checkBoardOwner(board.getCreatedBy(), requesterId);
 
-        board.updateBoard(updateBoard.getTitle(), updateBoard.getContent());
+        board.updateBoard(command.getTitle(), command.getContent());
 
         if(!requesterId.equals(board.getCreatedBy().getId())) {
             board.updateLastModifier(
                 userRepository.findById(requesterId).orElseThrow(
-                        () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...")
+                        () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
                 )
             );
         }
@@ -79,5 +81,26 @@ public class BoardServiceImpl implements BoardService {
 
         boardRepository.delete(board);
         return id;
+    }
+
+    @Override
+    @Transactional
+    public CommentDomainDto.GetCommentInfo createComment(Long boardId
+            , CommentDomainDto.CreateCommentCommand command
+            , Long requesterId) {
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.NOT_FOUND_BOARD));
+
+        Comment comment = command.toEntity(
+                userRepository.findById(requesterId).orElseThrow(
+                        () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
+                )
+                , board
+        );
+
+        board.addComment(comment);
+        boardRepository.save(board);
+        return CommentDomainDto.GetCommentInfo.of(comment);
     }
 }

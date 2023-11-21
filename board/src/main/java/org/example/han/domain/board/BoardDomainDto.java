@@ -3,9 +3,11 @@ package org.example.han.domain.board;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.example.han.domain.board.comment.CommentDomainDto;
 import org.example.han.domain.user.User;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class BoardDomainDto {
 
@@ -31,6 +33,7 @@ public class BoardDomainDto {
         private String createUserName;
         private String updateUserLoginId;
         private String updateUserName;
+        private List<CommentDomainDto.GetCommentInfo> commentInfoList;
 
         // FIXME use mapstruct
         public static GetBoardInfo of(Board board) {
@@ -43,6 +46,7 @@ public class BoardDomainDto {
                     , board.getCreatedBy().getName()
                     , board.getUpdatedBy().getLoginId()
                     , board.getUpdatedBy().getName()
+                    , board.getCommentList().stream().map(CommentDomainDto.GetCommentInfo::of).toList()
             );
         }
     }

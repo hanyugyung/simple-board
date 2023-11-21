@@ -2,6 +2,9 @@ package org.example.han.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.example.han.domain.board.Board;
+import org.example.han.domain.board.BoardDomainDto;
+import org.example.han.domain.board.comment.CommentDomainDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserDomainDto {
@@ -25,5 +28,22 @@ public class UserDomainDto {
     public static class UserLoginCommand {
         private String userId;
         private String password;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class GetUserInfo {
+        private Long id;
+        private String userLoginId;
+        private String userName;
+        private String base64EncodedString;
+
+        public static UserDomainDto.GetUserInfo of(User user) {
+            return new UserDomainDto.GetUserInfo(user.getId()
+                    , user.getLoginId()
+                    , user.getName()
+                    , user.getBase64EncodedString()
+            );
+        }
     }
 }

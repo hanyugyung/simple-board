@@ -1,15 +1,19 @@
 package org.example.han.interfaces.user;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.example.han.common.auth.AccessUser;
 import org.example.han.domain.user.UserService;
 import org.example.han.interfaces.CommonResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,6 +48,24 @@ public class UserApiController {
     ) {
         return ResponseEntity.ok(
                 CommonResponse.success(userService.login(request.toDomainDto()))
+        );
+    }
+
+    @Operation(summary = "내 정보 조회", description = "요청자의 정보 조회 api 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
+    })
+    @GetMapping("my-page")
+    public ResponseEntity<CommonResponse<UserApiDto.GetUserResponse>> getUser(
+            @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token
+            , @AuthenticationPrincipal AccessUser accessUser
+    ) {
+        return ResponseEntity.ok(
+                CommonResponse.success(
+                        UserApiDto.GetUserResponse.from(
+                                userService.getUser(accessUser.getId()))
+                )
         );
     }
 }

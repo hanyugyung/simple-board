@@ -7,11 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.domain.Base;
+import org.example.han.domain.board.comment.Comment;
 import org.example.han.domain.user.User;
 import org.example.han.interfaces.CommonResponse;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "boards")
@@ -24,16 +26,19 @@ public class Board extends Base {
 
     private String content;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "createUserId")
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "createUserId", updatable = false)
     private User createdBy;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "updateUserId")
     private User updatedBy;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
     public Board(String title, String content, User createUser) {
-        if(!StringUtils.hasText(title))
+        if(!StringUtils.hasText(title) || createUser == null)
             throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
 
         this.title = title;
@@ -52,5 +57,9 @@ public class Board extends Base {
 
     public void updateLastModifier(User lastModifier) {
         this.updatedBy = lastModifier;
+    }
+
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
     }
 }

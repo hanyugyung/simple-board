@@ -42,8 +42,8 @@ public class SecurityConfig {
                 , new AntPathRequestMatcher("/h2-console/**")
                 , new AntPathRequestMatcher("/h2-console")
                 , new AntPathRequestMatcher("/favicon.ico")
-                , new AntPathRequestMatcher("/api/users")
-                , new AntPathRequestMatcher("/api/users/**")
+                , new AntPathRequestMatcher("/api/users/login")
+                , new AntPathRequestMatcher("/api/users/sign-up")
         );
     }
 
@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher("/api/boards")
                                 , new AntPathRequestMatcher("/api/boards/**")
+                                , new AntPathRequestMatcher("/api/users/my-page")
                         ).hasRole("user")
                         .anyRequest().permitAll()
                 )

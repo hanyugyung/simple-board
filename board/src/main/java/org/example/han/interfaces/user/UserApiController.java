@@ -28,7 +28,7 @@ public class UserApiController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
     })
-    @PostMapping("/sing-up")
+    @PostMapping("/sign-up")
     public ResponseEntity<CommonResponse<Long>> userSignUp(
             @RequestBody @Valid UserApiDto.UserSignUpRequest request
     ) {

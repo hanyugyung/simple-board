@@ -20,6 +20,7 @@ public class Comment extends Base {
     private String comment;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "createUserId")
     private User createdBy;
 
     @ManyToOne

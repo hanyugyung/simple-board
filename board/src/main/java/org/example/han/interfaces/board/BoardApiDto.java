@@ -9,6 +9,7 @@ import org.example.han.domain.board.BoardDomainDto;
 import org.example.han.domain.board.comment.CommentDomainDto;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class BoardApiDto {
 
@@ -43,6 +44,7 @@ public class BoardApiDto {
         private String createUserName;
         private String updateUserId;
         private String updateUserName;
+        private List<GetCommentResponse> commentList;
 
         public static GetBoardResponse from(BoardDomainDto.GetBoardInfo dto) {
             return new GetBoardResponse(
@@ -55,6 +57,10 @@ public class BoardApiDto {
                     , dto.getCreateUserName()
                     , dto.getUpdateUserLoginId()
                     , dto.getUpdateUserName()
+                    , dto.getCommentInfoList()
+                        .stream()
+                        .map(GetCommentResponse::from)
+                        .toList()
             );
         }
     }
@@ -88,7 +94,6 @@ public class BoardApiDto {
         }
     }
 
-    @Schema(description = "댓글 API 응답")
     @Getter
     @AllArgsConstructor
     public static class GetCommentResponse {

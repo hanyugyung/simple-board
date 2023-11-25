@@ -72,7 +72,7 @@ public class BoardApiController {
     @PatchMapping("/{id}")
     public ResponseEntity<CommonResponse<Long>> updateBoard(
             @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token
-            , @PathVariable Long id
+            , @PathVariable(name = "id") Long id
             , @RequestBody @Valid BoardApiDto.UpdateBoardRequest request
             , @AuthenticationPrincipal AccessUser accessUser
     ) {
@@ -90,7 +90,7 @@ public class BoardApiController {
     @DeleteMapping("/{id}")
     public ResponseEntity<CommonResponse<Long>> deleteBoard(
             @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token
-            , @PathVariable Long id
+            , @PathVariable(name = "id") Long id
             , @AuthenticationPrincipal AccessUser accessUser
     ) {
         return ResponseEntity.ok(
@@ -104,17 +104,15 @@ public class BoardApiController {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
     })
-    @PostMapping("/{boardId}/comments")
-    public ResponseEntity<CommonResponse<BoardApiDto.GetCommentResponse>> createCommentToBoard(
-            @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token // 댓글은 인증뺄까....
-            , @PathVariable Long boardId
+    @PostMapping("/{board-id}/comments")
+    public ResponseEntity<CommonResponse<Long>> createCommentToBoard(
+            @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token // TODO 댓글은 인증뺄까....
+            , @PathVariable(name = "board-id") Long boardId
             , @RequestBody @Valid BoardApiDto.CreateCommentRequest request
             , @AuthenticationPrincipal AccessUser accessUser
     ) {
         return ResponseEntity.ok(
-                CommonResponse.success(BoardApiDto.GetCommentResponse.from(
-                        boardService.createComment(boardId, request.toDomainDto(), accessUser.getId())
-                ))
+                CommonResponse.success(boardService.createComment(boardId, request.toDomainDto(), accessUser.getId()))
         );
     }
 }

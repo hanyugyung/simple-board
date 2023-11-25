@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "boards")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends Base {
 
     @NotEmpty

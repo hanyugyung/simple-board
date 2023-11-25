@@ -85,7 +85,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public CommentDomainDto.GetCommentInfo createComment(Long boardId
+    public long createComment(Long boardId
             , CommentDomainDto.CreateCommentCommand command
             , Long requesterId) {
 
@@ -101,6 +101,6 @@ public class BoardServiceImpl implements BoardService {
 
         board.addComment(comment);
         boardRepository.save(board);
-        return CommentDomainDto.GetCommentInfo.of(comment);
+        return comment.getId();
     }
 }

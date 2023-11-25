@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.domain.Base;
 import org.example.han.interfaces.CommonResponse;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name = "users")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends Base {
 
     @NotBlank

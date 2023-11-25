@@ -52,3 +52,11 @@ spring:
     hibernate:
       use-new-id-generator-mappings: false
       ddl-auto: none
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+file:
+  upload:
+    location: C:\board\upload-image

@@ -2,9 +2,6 @@ package org.example.han.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.example.han.domain.board.Board;
-import org.example.han.domain.board.BoardDomainDto;
-import org.example.han.domain.board.comment.CommentDomainDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserDomainDto {

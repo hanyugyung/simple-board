@@ -43,4 +43,11 @@ public class UserDomainDto {
             );
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class UpdateUserCommand {
+        private String userName;
+        private String base64EncodedString;
+    }
 }

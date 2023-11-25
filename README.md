@@ -7,9 +7,9 @@
 
 (back-end)
 
-Java 17
-Spring Boot 3.1.5
-Gradle 7.4
+- Java 17
+- Spring Boot 3.1.5
+- Gradle 7.4
 
 
 ---
@@ -39,6 +39,7 @@ Gradle 7.4
 - 회원 가입
 - 토큰 발급
 - 내 정보 조회
+- 내 정보 수정
 - 게시판 글 작성
 - 게시판 글 목록 보기
 - 게시판 글 업데이트

@@ -1,6 +1,7 @@
 package org.example.han.domain.user;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
@@ -26,6 +27,7 @@ public class User extends Base {
     @NotBlank
     private String encodedPassword;
 
+    @Lob
     private String base64EncodedString;
 
     public User(String loginId, String name, String encodedPassword, String base64EncodedString) {
@@ -37,6 +39,11 @@ public class User extends Base {
         this.loginId = loginId;
         this.name = name;
         this.encodedPassword = encodedPassword;
+        this.base64EncodedString = base64EncodedString;
+    }
+
+    public void updateUser(String name, String base64EncodedString) {
+        this.name = name;
         this.base64EncodedString = base64EncodedString;
     }
 }

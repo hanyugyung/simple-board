@@ -2,7 +2,6 @@ package org.example.han.interfaces.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.han.domain.user.UserDomainDto;
@@ -78,6 +77,20 @@ public class UserApiDto {
                     , dto.getUserName()
                     , dto.getBase64EncodedString()
             );
+        }
+    }
+
+    @Schema(description = "내 정보 수정 API 요청")
+    @Getter
+    public static class UpdateUserRequest {
+        @Schema(description = "사용자 이름", example = "테스터")
+        private String userName;
+
+        @Schema(description = "프로필 사진")
+        private String base64EncodedString;
+
+        public UserDomainDto.UpdateUserCommand toDomainDto() {
+            return new UserDomainDto.UpdateUserCommand(this.userName, this.base64EncodedString);
         }
     }
 }

@@ -56,7 +56,7 @@ public class UserApiController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
     })
-    @GetMapping("my-page")
+    @GetMapping("/my-page")
     public ResponseEntity<CommonResponse<UserApiDto.GetUserResponse>> getUser(
             @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token
             , @AuthenticationPrincipal AccessUser accessUser
@@ -65,6 +65,24 @@ public class UserApiController {
                 CommonResponse.success(
                         UserApiDto.GetUserResponse.from(
                                 userService.getUser(accessUser.getId()))
+                )
+        );
+    }
+
+    @Operation(summary = "내 정보 수정", description = "요청자의 정보 수정 api 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
+    })
+    @PatchMapping("/my-page")
+    public ResponseEntity<CommonResponse<Long>> updateUser(
+            @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token
+            , @RequestBody @Valid UserApiDto.UpdateUserRequest request
+            , @AuthenticationPrincipal AccessUser accessUser
+    ) {
+        return ResponseEntity.ok(
+                CommonResponse.success(
+                        userService.updateUser(request.toDomainDto(), accessUser.getId())
                 )
         );
     }

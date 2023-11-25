@@ -6,6 +6,7 @@ import org.example.han.common.auth.JwtGenerator;
 import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.infrastructure.UserRepository;
 import org.example.han.interfaces.CommonResponse;
+import org.example.han.interfaces.user.UserApiDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,5 +61,14 @@ public class UserServiceImpl implements UserService {
                 userRepository.findById(requesterId)
                         .orElseThrow(() -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳"))
         );
+    }
+
+    @Override
+    @Transactional
+    public Long updateUser(UserDomainDto.UpdateUserCommand command, Long requesterId) {
+        User user = userRepository.findById(requesterId)
+                .orElseThrow(() -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳"));
+        user.updateUser(command.getUserName(), command.getBase64EncodedString());
+        return user.getId();
     }
 }

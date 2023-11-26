@@ -28,8 +28,7 @@
   1. api/user/sign-up 에서 회원가입 먼저 해야함
   2. api/*/login 에서 로그인 토큰 발급
   3. swagger openapi 에 토큰 등록? 후 다른 api 테스트 가능!
-- 파일 업로드 요청 시 확인할 점
-  1. 저장 위치는 windows 기준 C:\board\upload-image 으로 잡았는데 mac 의 경우 파일 저장 경로와 파일서비스 내의 파일 구분자를 mac 기준으로 변경해야합니다. 
+- 파일 업로드 위치 : 프로젝트 폴더 내의 upload-file 폴더 (없으면 스스로 생성) 내부에 생성
 
 
 ---

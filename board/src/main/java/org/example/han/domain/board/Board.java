@@ -24,6 +24,7 @@ public class Board extends Base {
     @NotEmpty
     private String title;
 
+    @Lob
     private String content;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

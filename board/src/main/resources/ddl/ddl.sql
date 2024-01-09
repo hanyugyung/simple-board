@@ -1,3 +1,12 @@
+-- 필요시 테이블 삭제
+-- 서버 실행 시 자동으로 생성된 테이블이라면 삭제 시 아래 순서를 꼭 지켜서 삭제한다
+-- 자동으로 제약조건이 걸어주기 때문
+drop table "upload-files";
+drop table "comments";
+drop table "boards";
+drop table "users";
+
+-- 테이블 생성
 create table "boards" (
     "create_user_id" bigint,
     "created_at" timestamp(6) with time zone,

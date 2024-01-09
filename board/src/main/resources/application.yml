@@ -6,7 +6,6 @@ jwt:
   issuer: han
   expired-time: 180000000000 # 3000h #개발용이어서 길게 줌
 
-
 # swaggerdoc
 springdoc:
   version: v1.0.0
@@ -27,6 +26,8 @@ springdoc:
 spring:
   h2:
     console:
+      settings:
+        web-allow-others: true
       enabled: true
       path: /h2-console
   datasource:

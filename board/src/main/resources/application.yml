@@ -4,7 +4,7 @@ server:
 jwt:
   secret-key: fadsdnfiew232938rfksl#$@#dsfsdnf
   issuer: han
-  expired-time: 1800000 # 3분
+  expired-time: 180000000000 # 3000h #개발용이어서 길게 줌
 
 
 # swaggerdoc
@@ -12,6 +12,7 @@ springdoc:
   version: v1.0.0
   packages-to-scan: org.example.han
   swagger-ui:
+    enabled: true
     path: /api-docs
     tags-sorter: alpha
     operations-sorter: alpha
@@ -51,7 +52,7 @@ spring:
           in_clause_parameter_padding: true
     hibernate:
       use-new-id-generator-mappings: false
-      ddl-auto: none
+      ddl-auto: update
   servlet:
     multipart:
       max-file-size: 10MB

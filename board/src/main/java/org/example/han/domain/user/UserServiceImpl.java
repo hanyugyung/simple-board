@@ -6,7 +6,6 @@ import org.example.han.common.auth.JwtGenerator;
 import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.infrastructure.UserRepository;
 import org.example.han.interfaces.CommonResponse;
-import org.example.han.interfaces.user.UserApiDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,17 +23,17 @@ public class UserServiceImpl implements UserService {
     private void checkAvailableLoginId(String loginId) {
         userRepository.findByLoginId(loginId)
                 .ifPresent(it -> {
-                    throw new InvalidParameterException(CommonResponse.CustomErrorMessage.USER_LOGIN_ID_ALREADY_EXISTED);
+                    throw new InvalidParameterException(CommonResponse.CustomError.USER_LOGIN_ID_ALREADY_EXISTED);
                 });
     }
 
     private User validateUserAndGet(String loginId, String password) {
 
         User user = userRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.USER_FAIL_LOGIN));
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.USER_FAIL_LOGIN));
 
         if (!passwordEncoder.matches(password, user.getEncodedPassword())) {
-            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.USER_FAIL_LOGIN);
+            throw new InvalidParameterException(CommonResponse.CustomError.USER_FAIL_LOGIN);
         }
 
         return user;

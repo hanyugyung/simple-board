@@ -29,7 +29,7 @@ public class Comment extends Base {
 
     public Comment(String comment, User createUser, Board board) {
         if(!StringUtils.hasText(comment) || createUser == null || board == null)
-            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
+            throw new InvalidParameterException(CommonResponse.CustomError.INVALID_PARAMETER);
 
         this.comment = comment;
         this.createdBy = createUser;

@@ -72,13 +72,13 @@ public class SecurityConfig {
                                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                                 response.setContentType("application/json");
                                 Utils.getObjectMapper().writeValue(
-                                        response.getOutputStream(), CommonResponse.fail(CommonResponse.CustomErrorMessage.USER_FAIL_AUTHORIZATION));
+                                        response.getOutputStream(), CommonResponse.successWithError(CommonResponse.CustomError.USER_FAIL_AUTHORIZATION));
                             }))
                             .accessDeniedHandler(((request, response, accessDeniedException) -> {
                                 response.setStatus(HttpStatus.FORBIDDEN.value());
                                 response.setContentType("application/json");
                                 Utils.getObjectMapper().writeValue(
-                                        response.getOutputStream(), CommonResponse.fail(CommonResponse.CustomErrorMessage.USER_FAIL_AUTHORIZATION));
+                                        response.getOutputStream(), CommonResponse.successWithError(CommonResponse.CustomError.USER_FAIL_ACCESS));
                             }))
                 )
                 .build();

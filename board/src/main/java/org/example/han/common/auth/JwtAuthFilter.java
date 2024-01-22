@@ -30,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json");
             Utils.getObjectMapper().writeValue(
-                    response.getOutputStream(), CommonResponse.fail(CommonResponse.CustomErrorMessage.USER_FAIL_AUTHORIZATION));
+                    response.getOutputStream(), CommonResponse.successWithError(CommonResponse.CustomError.USER_FAIL_AUTHORIZATION));
         } else {
 
             TokenInfo tokenInfo = Utils

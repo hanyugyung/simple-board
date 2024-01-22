@@ -40,7 +40,7 @@ public class Board extends Base {
 
     public Board(String title, String content, User createUser) {
         if(!StringUtils.hasText(title) || createUser == null)
-            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
+            throw new InvalidParameterException(CommonResponse.CustomError.INVALID_PARAMETER);
 
         this.title = title;
         this.content = content;
@@ -50,7 +50,7 @@ public class Board extends Base {
 
     public void updateBoard(String title, String content) {
         if(!StringUtils.hasText(title))
-            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
+            throw new InvalidParameterException(CommonResponse.CustomError.INVALID_PARAMETER);
 
         this.title = title;
         this.content = content;

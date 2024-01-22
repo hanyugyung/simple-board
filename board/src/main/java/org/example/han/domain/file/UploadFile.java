@@ -31,7 +31,7 @@ public class UploadFile extends Base {
         if(!StringUtils.hasText(fileName)
         || !StringUtils.hasText(filePath)
         || createUser == null)
-            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
+            throw new InvalidParameterException(CommonResponse.CustomError.INVALID_PARAMETER);
 
         this.fileName = fileName;
         this.filePath = filePath;

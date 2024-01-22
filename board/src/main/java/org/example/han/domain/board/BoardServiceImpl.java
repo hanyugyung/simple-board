@@ -24,7 +24,7 @@ public class BoardServiceImpl implements BoardService {
     // FIXME 게시글 작성자 이외에도 게시글을 변경할 수 있다면, 권한 테이블이 추가로 필요할 거 같음~~~
     private void checkBoardOwner(User owner, Long requesterId) {
         if(!requesterId.equals(owner.getId())) {
-            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_ACCESS_TO_BOARD);
+            throw new InvalidParameterException(CommonResponse.CustomError.INVALID_ACCESS_TO_BOARD);
         }
     }
 
@@ -54,7 +54,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand command, Long requesterId) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.NOT_FOUND_BOARD));
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_BOARD));
 
         //checkBoardOwner(board.getCreatedBy(), requesterId);
 
@@ -75,7 +75,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public long deleteBoard(Long id, Long requesterId) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.NOT_FOUND_BOARD));
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_BOARD));
 
         //checkBoardOwner(board.getCreatedBy(), requesterId);
 
@@ -90,7 +90,7 @@ public class BoardServiceImpl implements BoardService {
             , Long requesterId) {
 
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomErrorMessage.NOT_FOUND_BOARD));
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_BOARD));
 
         Comment comment = command.toEntity(
                 userRepository.findById(requesterId).orElseThrow(

@@ -34,7 +34,7 @@ public class User extends Base {
         if(!StringUtils.hasText(loginId)
         || !StringUtils.hasText(name)
         || !StringUtils.hasText(encodedPassword))
-            throw new InvalidParameterException(CommonResponse.CustomErrorMessage.INVALID_PARAMETER);
+            throw new InvalidParameterException(CommonResponse.CustomError.INVALID_PARAMETER);
 
         this.loginId = loginId;
         this.name = name;

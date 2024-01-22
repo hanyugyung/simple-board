@@ -35,8 +35,8 @@ spring:
     url: jdbc:h2:~/board-db
     username: sa
     password:
-  jackson:
-    default-property-inclusion: non_null
+#  jackson:
+#    default-property-inclusion: non_null
   jpa:
     database: h2
     show-sql: true

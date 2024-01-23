@@ -44,6 +44,7 @@
 - 게시판 글 업데이트
 - 게시판 글 삭제
 - 댓글 작성
+- 댓글 삭제
 - 파일 업로드
 
 ### 사용자 에러 정의 규칙
@@ -67,4 +68,22 @@
   "errorCode": "400",
   "errorMessage": "[로그인 아이디는 필수 입력 값 입니다.]"
 }
+```
+
+### 상세 에러 코드 및 메시지
+
+- 스웨거로 작성하는데에 번거로움이 있어, 아래 블록으로 대체합니다.
+- 현행화가 안될 수도 있어서 소스코드의 CommonResponse 클래스의 하단을 참고해주세요.
+```
+SUCCESS("90000", "Request Success")
+USER_LOGIN_ID_ALREADY_EXISTED("90100", "이미 존재하는 계정입니다.")
+USER_FAIL_LOGIN("90101", "로그인에 실패하였습니다.")
+INVALID_PARAMETER("90200", "유효하지 않은 파라미터입니다.")
+USER_FAIL_AUTHORIZATION("90300", "인증이 필요합니다.")
+USER_FAIL_ACCESS("90301", "권한이 필요합니다.")
+NOT_FOUND_BOARD("90400", "해당 게시글은 삭제되었거나 존재하지 않는 게시글입니다.")
+INVALID_ACCESS_TO_BOARD("90401", "작성자 외에 게시물을 수정하거나 삭제할 수 없습니다.")
+NOT_FOUND_COMMENT("90402", "해당 댓글은 이미 삭제되었거나 존재하지 않습니다.")
+INVALID_FILE("90500", "유효하지 않은 파일입니다.")
+INTERNAL_SERVER_ERROR("99999", "서버 내부 오류입니다.")
 ```

@@ -63,4 +63,12 @@ public class Board extends Base {
     public void addComment(Comment comment) {
         this.commentList.add(comment);
     }
+
+    public void deleteComment(Long commentId) {
+        Comment target = this.commentList.stream()
+                .filter(comment -> commentId.equals(comment.getId()))
+                .findAny()
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_COMMENT));
+        this.commentList.remove(target);
+    }
 }

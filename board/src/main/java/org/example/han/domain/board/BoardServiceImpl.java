@@ -106,4 +106,17 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.save(board);
         return comment.getId();
     }
+
+    @Override
+    @Transactional
+    public long deleteComment(Long boardId, Long commentId, Long requesterId) {
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_BOARD));
+
+        //checkBoardOwner(board.getCreatedBy(), requesterId);
+
+        board.deleteComment(commentId);
+        return commentId;
+    }
 }

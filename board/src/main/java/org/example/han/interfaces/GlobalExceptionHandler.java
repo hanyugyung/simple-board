@@ -1,6 +1,7 @@
 package org.example.han.interfaces;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.example.han.common.exception.InvalidParameterException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -75,6 +76,19 @@ public class GlobalExceptionHandler {
                 String.valueOf(HttpStatus.METHOD_NOT_ALLOWED.value())
                 , exception.getMessage());
     }
+
+    // 파일 용량이 클 때
+//    @ResponseBody
+//    @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
+//    @ExceptionHandler({
+//            FileSizeLimitExceededException.class
+//    })
+//    public CommonResponse onException(FileSizeLimitExceededException exception) {
+//        log.error("error : {}", exception.getMessage());
+//        return CommonResponse.fail(
+//                String.valueOf(HttpStatus.PAYLOAD_TOO_LARGE.value())
+//                , exception.getMessage());
+//    }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

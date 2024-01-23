@@ -8,6 +8,8 @@ import org.example.han.domain.user.User;
 import org.example.han.infrastructure.BoardRepository;
 import org.example.han.infrastructure.UserRepository;
 import org.example.han.interfaces.CommonResponse;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,8 +45,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BoardDomainDto.GetBoardInfo> getBoardList(int startIndex) {
-        return boardRepository.findByIdBetween(startIndex, startIndex+9)
+    public List<BoardDomainDto.GetBoardInfo> getBoardList(int page, int size) {
+        return boardRepository.findAll(PageRequest.of(page-1, size, Sort.by("id").descending()))
+                .getContent()
                 .stream()
                 .map(BoardDomainDto.GetBoardInfo::of)
                 .toList();

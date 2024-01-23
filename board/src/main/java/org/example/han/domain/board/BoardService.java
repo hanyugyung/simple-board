@@ -8,7 +8,7 @@ public interface BoardService {
 
     long createBoard(BoardDomainDto.CreateBoardCommand command, Long requesterId);
 
-    List<BoardDomainDto.GetBoardInfo> getBoardList(int startIndex);
+    List<BoardDomainDto.GetBoardInfo> getBoardList(int page, int size);
 
     long updateBoard(Long id, BoardDomainDto.UpdateBoardCommand command, Long requesterId);
 

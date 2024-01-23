@@ -52,11 +52,15 @@ public class BoardApiController {
     @GetMapping
     public ResponseEntity<CommonResponse<List<BoardApiDto.GetBoardResponse>>> getBoardList(
             @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token
-            , @RequestParam(name = "startIndex", defaultValue = "0") int startIndex
+            , @RequestParam(name = "page", defaultValue = "1") int page
+            , @RequestParam(name = "size", defaultValue = "10") int size
             , @AuthenticationPrincipal AccessUser accessUser
     ) {
+
+        if(page < 1) page = 1;
+
         return ResponseEntity.ok(
-                CommonResponse.success(boardService.getBoardList(startIndex)
+                CommonResponse.success(boardService.getBoardList(page, size)
                         .stream()
                         .map(BoardApiDto.GetBoardResponse::from)
                         .toList())

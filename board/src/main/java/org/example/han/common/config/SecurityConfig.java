@@ -45,6 +45,7 @@ public class SecurityConfig {
                 , new AntPathRequestMatcher("/api/users/login")
                 , new AntPathRequestMatcher("/api/users/sign-up")
                 , new AntPathRequestMatcher("/upload-file/**")
+                , new AntPathRequestMatcher("/**/upload-file/**")
         );
     }
 

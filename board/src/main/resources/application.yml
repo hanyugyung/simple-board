@@ -6,6 +6,10 @@ jwt:
   issuer: han
   expired-time: 180000000000 # 3000h #개발용이어서 길게 줌
 
+board:
+  file:
+    upload-path: upload-file
+
 # swaggerdoc
 springdoc:
   version: v1.0.0

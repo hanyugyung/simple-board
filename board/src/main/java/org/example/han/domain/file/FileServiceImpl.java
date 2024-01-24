@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.han.domain.user.User;
 import org.example.han.infrastructure.FileRepository;
 import org.example.han.infrastructure.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
-    private static final String uploadPath = Paths.get("").toAbsolutePath() + File.separator + "upload-file" + File.separator;
+    @Value("${board.file.upload-path}")
+    private String uploadPath;
 
     private final UserRepository userRepository;
 
@@ -32,8 +34,8 @@ public class FileServiceImpl implements FileService {
                 () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
         );
 
-
-        String filePath = uploadPath + UUID.randomUUID() + command.getExtension();
+        String absPath = Paths.get("").toAbsolutePath() + File.separator + uploadPath + File.separator;
+        String filePath = absPath + UUID.randomUUID() + command.getExtension();
         System.out.println("filePath : " + filePath);
 
         File uploadedFile = new File(filePath);

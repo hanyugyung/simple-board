@@ -30,11 +30,15 @@ public class UserApiDto {
 //                , message = "비밀번호는 영어 대문자, 영어 소문자, 숫자, 특수문자 중 3종류 이상으로 12자리 이상이어야 합니다.")
         private String password;
 
-        @Schema(description = "사용자 프로필")
-        private String base64EncodedString;
+        @Schema(description = "사용자 부가 정보")
+        private String extraUserInfo;
+
+        @Schema(description = "사용자 프로필 파일 주소")
+        private String profileFilePath;
 
         public UserDomainDto.UserSignUpCommand toDomainDto() {
-            return new UserDomainDto.UserSignUpCommand(this.loginId, this.name, this.password, this.base64EncodedString);
+            return new UserDomainDto.UserSignUpCommand(this.loginId, this.name, this.password,
+                    this.extraUserInfo, this.profileFilePath);
         }
     }
 
@@ -68,14 +72,18 @@ public class UserApiDto {
         @Schema(description = "사용자 이름", example = "테스터")
         private String userName;
 
-        @Schema(description = "프로필 사진")
-        private String base64EncodedString;
+        @Schema(description = "부가 정보")
+        private String extraUserInfo;
+
+        @Schema(description = "프로필 파일 주소")
+        private String profileFilePath;
 
         public static GetUserResponse from(UserDomainDto.GetUserInfo dto) {
             return new GetUserResponse(dto.getId()
                     , dto.getUserLoginId()
                     , dto.getUserName()
-                    , dto.getBase64EncodedString()
+                    , dto.getExtraUserInfo()
+                    , dto.getProfileFilePath()
             );
         }
     }
@@ -86,11 +94,14 @@ public class UserApiDto {
         @Schema(description = "사용자 이름", example = "테스터")
         private String userName;
 
-        @Schema(description = "프로필 사진")
-        private String base64EncodedString;
+        @Schema(description = "부가 정보")
+        private String extraUserInfo;
+
+        @Schema(description = "프로필 파일 주소")
+        private String profileFilePath;
 
         public UserDomainDto.UpdateUserCommand toDomainDto() {
-            return new UserDomainDto.UpdateUserCommand(this.userName, this.base64EncodedString);
+            return new UserDomainDto.UpdateUserCommand(this.userName, this.extraUserInfo, this.profileFilePath);
         }
     }
 }

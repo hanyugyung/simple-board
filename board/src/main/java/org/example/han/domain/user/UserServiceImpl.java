@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public UserDomainDto.GetUserInfo getUser(Long requesterId) {
         return UserDomainDto.GetUserInfo.of(
                 userRepository.findById(requesterId)
-                        .orElseThrow(() -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳"))
+                        .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_USER))
         );
     }
 
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public Long updateUser(UserDomainDto.UpdateUserCommand command, Long requesterId) {
         User user = userRepository.findById(requesterId)
                 .orElseThrow(() -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳"));
-        user.updateUser(command.getUserName(), command.getBase64EncodedString());
+        user.updateUser(command.getUserName(), command.getExtraUserInfo(), command.getProfileFilePath());
         return user.getId();
     }
 }

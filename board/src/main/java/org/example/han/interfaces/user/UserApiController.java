@@ -51,20 +51,21 @@ public class UserApiController {
         );
     }
 
-    @Operation(summary = "내 정보 조회", description = "요청자의 정보 조회 api 입니다.")
+    @Operation(summary = "특정 사용자 정보 조회", description = "특정 사용자 정보 조회 api 입니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
     })
-    @GetMapping("/my-page")
+    @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<UserApiDto.GetUserResponse>> getUser(
             @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token
+            , @PathVariable(name = "id") Long id
             , @AuthenticationPrincipal AccessUser accessUser
     ) {
         return ResponseEntity.ok(
                 CommonResponse.success(
                         UserApiDto.GetUserResponse.from(
-                                userService.getUser(accessUser.getId()))
+                                userService.getUser(id))
                 )
         );
     }

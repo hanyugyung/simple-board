@@ -40,10 +40,12 @@ public class BoardApiDto {
         private ZonedDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
         private ZonedDateTime updatedAt;
-        private String createUserId;
+        private Long createUserId;
         private String createUserName;
-        private String updateUserId;
+        private String createUserProfileFilePath;
+        private Long updateUserId;
         private String updateUserName;
+        private String updateUserProfileFilePath;
         private List<GetCommentResponse> commentList;
 
         public static GetBoardResponse from(BoardDomainDto.GetBoardInfo dto) {
@@ -53,10 +55,12 @@ public class BoardApiDto {
                     , dto.getContent()
                     , dto.getCreatedAt()
                     , dto.getUpdatedAt()
-                    , dto.getCreateUserLoginId()
+                    , dto.getCreateUserId()
                     , dto.getCreateUserName()
-                    , dto.getUpdateUserLoginId()
+                    , dto.getCreateUserProfileFilePath()
+                    , dto.getUpdateUserId()
                     , dto.getUpdateUserName()
+                    , dto.getUpdateUserProfileFilePath()
                     , dto.getCommentInfoList()
                         .stream()
                         .map(GetCommentResponse::from)

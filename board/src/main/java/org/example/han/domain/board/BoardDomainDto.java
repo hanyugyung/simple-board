@@ -29,10 +29,12 @@ public class BoardDomainDto {
         private String content;
         private ZonedDateTime createdAt;
         private ZonedDateTime updatedAt;
-        private String createUserLoginId;
+        private Long createUserId;
         private String createUserName;
-        private String updateUserLoginId;
+        private String createUserProfileFilePath;
+        private Long updateUserId;
         private String updateUserName;
+        private String updateUserProfileFilePath;
         private List<CommentDomainDto.GetCommentInfo> commentInfoList;
 
         // FIXME use mapstruct
@@ -42,10 +44,12 @@ public class BoardDomainDto {
                     , board.getContent()
                     , board.getCreatedAt()
                     , board.getUpdatedAt()
-                    , board.getCreatedBy().getLoginId()
+                    , board.getCreatedBy().getId()
                     , board.getCreatedBy().getName()
-                    , board.getUpdatedBy().getLoginId()
+                    , board.getCreatedBy().getProfileFilePath()
+                    , board.getUpdatedBy().getId()
                     , board.getUpdatedBy().getName()
+                    , board.getUpdatedBy().getProfileFilePath()
                     , board.getCommentList().stream().map(CommentDomainDto.GetCommentInfo::of).toList()
             );
         }

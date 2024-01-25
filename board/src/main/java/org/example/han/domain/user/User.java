@@ -28,9 +28,11 @@ public class User extends Base {
     private String encodedPassword;
 
     @Lob
-    private String base64EncodedString;
+    private String extraUserInfo;
 
-    public User(String loginId, String name, String encodedPassword, String base64EncodedString) {
+    private String profileFilePath;
+
+    public User(String loginId, String name, String encodedPassword, String extraUserInfo, String profileFilePath) {
         if(!StringUtils.hasText(loginId)
         || !StringUtils.hasText(name)
         || !StringUtils.hasText(encodedPassword))
@@ -39,11 +41,13 @@ public class User extends Base {
         this.loginId = loginId;
         this.name = name;
         this.encodedPassword = encodedPassword;
-        this.base64EncodedString = base64EncodedString;
+        this.extraUserInfo = extraUserInfo;
+        this.profileFilePath = profileFilePath;
     }
 
-    public void updateUser(String name, String base64EncodedString) {
+    public void updateUser(String name, String extraUserInfo, String profileFilePath) {
         this.name = name;
-        this.base64EncodedString = base64EncodedString;
+        this.extraUserInfo = extraUserInfo;
+        this.profileFilePath = profileFilePath;
     }
 }

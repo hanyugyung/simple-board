@@ -13,10 +13,12 @@ public class UserDomainDto {
         private String name;
         private String password;
 
-        private String base64EncodedString;
+        private String extraUserInfo;
+
+        private String profileFilePath;
 
         public User toEntity(PasswordEncoder passwordEncoder) {
-            return new User(this.loginId, this.name, passwordEncoder.encode(this.password), this.base64EncodedString);
+            return new User(this.loginId, this.name, passwordEncoder.encode(this.password), this.extraUserInfo, this.extraUserInfo);
         }
     }
 
@@ -33,13 +35,15 @@ public class UserDomainDto {
         private Long id;
         private String userLoginId;
         private String userName;
-        private String base64EncodedString;
+        private String extraUserInfo;
+        private String profileFilePath;
 
         public static UserDomainDto.GetUserInfo of(User user) {
             return new UserDomainDto.GetUserInfo(user.getId()
                     , user.getLoginId()
                     , user.getName()
-                    , user.getBase64EncodedString()
+                    , user.getExtraUserInfo()
+                    , user.getProfileFilePath()
             );
         }
     }
@@ -48,6 +52,7 @@ public class UserDomainDto {
     @AllArgsConstructor
     public static class UpdateUserCommand {
         private String userName;
-        private String base64EncodedString;
+        private String extraUserInfo;
+        private String profileFilePath;
     }
 }

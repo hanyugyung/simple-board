@@ -51,6 +51,7 @@ public class CommonResponse<T> {
         // user
         , USER_LOGIN_ID_ALREADY_EXISTED("90100", "이미 존재하는 계정입니다.")
         , USER_FAIL_LOGIN("90101", "로그인에 실패하였습니다.")
+        , NOT_FOUND_USER("90102", "조회되지 않는 사용자입니다.")
 
         // invalid param
         , INVALID_PARAMETER("90200", "유효하지 않은 파라미터입니다.")

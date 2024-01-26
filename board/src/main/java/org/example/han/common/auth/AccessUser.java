@@ -68,4 +68,8 @@ public class AccessUser implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

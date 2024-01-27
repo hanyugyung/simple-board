@@ -48,7 +48,7 @@ public class FileApiController {
             , @AuthenticationPrincipal AccessUser accessUser
     ) throws IOException {
 
-        request.validateFile();
+//        request.validateFile();
 
         return ResponseEntity.ok(
                 CommonResponse.success(

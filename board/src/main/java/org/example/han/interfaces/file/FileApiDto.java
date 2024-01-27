@@ -42,7 +42,8 @@ public class FileApiDto {
             else if(file.getContentType().contains("image/gif")){
                 originalFileExtension = ".gif";
             }
-            else throw new InvalidParameterException(CommonResponse.CustomError.INVALID_FILE); // 앞서 검증하므로 여기 올 일 없음.
+            else originalFileExtension = ".image";
+//            else throw new InvalidParameterException(CommonResponse.CustomError.INVALID_FILE); // 앞서 검증하므로 여기 올 일 없음.
 
             return new FileDomainDto.UploadFileCommand(this.fileName + originalFileExtension, originalFileExtension, this.file);
         }

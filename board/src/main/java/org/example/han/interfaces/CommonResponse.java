@@ -64,6 +64,8 @@ public class CommonResponse<T> {
         , NOT_FOUND_BOARD("90400", "해당 게시글은 삭제되었거나 존재하지 않는 게시글입니다.")
         , INVALID_ACCESS_TO_BOARD("90401", "작성자 외에 게시물을 수정하거나 삭제할 수 없습니다.")
         , NOT_FOUND_COMMENT("90402", "해당 댓글은 이미 삭제되었거나 존재하지 않습니다.")
+        , ALREADY_LIKED("90403", "이미 좋아요를 눌렀습니다.")
+        , ALREADY_CANCELED("90404", "이미 취소되었습니다.")
 
         // file
         , INVALID_FILE("90500", "유효하지 않은 파일입니다.")

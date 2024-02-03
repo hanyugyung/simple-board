@@ -36,6 +36,7 @@ public class BoardDomainDto {
         private String updateUserName;
         private String updateUserProfileFilePath;
         private List<CommentDomainDto.GetCommentInfo> commentInfoList;
+        private Integer likeBoardCount;
 
         // FIXME use mapstruct
         public static GetBoardInfo of(Board board) {
@@ -51,6 +52,7 @@ public class BoardDomainDto {
                     , board.getUpdatedBy().getName()
                     , board.getUpdatedBy().getProfileFilePath()
                     , board.getCommentList().stream().map(CommentDomainDto.GetCommentInfo::of).toList()
+                    , board.getLikeBoardList().size()
             );
         }
     }

@@ -29,7 +29,7 @@ public class BoardApiDto {
         }
     }
 
-    @Schema(description = "게시글 작성 API 응답")
+    @Schema(description = "게시글 조회 API 응답")
     @Getter
     @AllArgsConstructor
     public static class GetBoardResponse {
@@ -47,6 +47,7 @@ public class BoardApiDto {
         private String updateUserName;
         private String updateUserProfileFilePath;
         private List<GetCommentResponse> commentList;
+        private Integer likeBoardCount;
 
         public static GetBoardResponse from(BoardDomainDto.GetBoardInfo dto) {
             return new GetBoardResponse(
@@ -65,6 +66,7 @@ public class BoardApiDto {
                         .stream()
                         .map(GetCommentResponse::from)
                         .toList()
+                    , dto.getLikeBoardCount()
             );
         }
     }

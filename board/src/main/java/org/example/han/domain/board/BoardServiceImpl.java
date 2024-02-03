@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.domain.board.comment.Comment;
 import org.example.han.domain.board.comment.CommentDomainDto;
+import org.example.han.domain.board.like.LikeBoard;
 import org.example.han.domain.user.User;
 import org.example.han.infrastructure.BoardRepository;
 import org.example.han.infrastructure.UserRepository;
@@ -23,9 +24,10 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
 
+
     // FIXME 게시글 작성자 이외에도 게시글을 변경할 수 있다면, 권한 테이블이 추가로 필요할 거 같음~~~
     private void checkBoardOwner(User owner, Long requesterId) {
-        if(!requesterId.equals(owner.getId())) {
+        if (!requesterId.equals(owner.getId())) {
             throw new InvalidParameterException(CommonResponse.CustomError.INVALID_ACCESS_TO_BOARD);
         }
     }
@@ -46,7 +48,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public List<BoardDomainDto.GetBoardInfo> getBoardList(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page-1, size, Sort.by("id").descending()))
+        return boardRepository.findAll(PageRequest.of(page - 1, size, Sort.by("id").descending()))
                 .getContent()
                 .stream()
                 .map(BoardDomainDto.GetBoardInfo::of)
@@ -63,11 +65,11 @@ public class BoardServiceImpl implements BoardService {
 
         board.updateBoard(command.getTitle(), command.getContent());
 
-        if(!requesterId.equals(board.getCreatedBy().getId())) {
+        if (!requesterId.equals(board.getCreatedBy().getId())) {
             board.updateLastModifier(
-                userRepository.findById(requesterId).orElseThrow(
-                        () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
-                )
+                    userRepository.findById(requesterId).orElseThrow(
+                            () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
+                    )
             );
         }
 
@@ -109,7 +111,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public long deleteComment(Long boardId, Long commentId, Long requesterId) {
+    public long deleteComment(Long boardId, Long commentId) {
 
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_BOARD));
@@ -118,5 +120,31 @@ public class BoardServiceImpl implements BoardService {
 
         board.deleteComment(commentId);
         return commentId;
+    }
+
+    @Override
+    @Transactional
+    public long likeBoard(Long boardId, Long requesterId) {
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_BOARD));
+
+        board.likeBoard(
+                userRepository.findById(requesterId).orElseThrow(
+                        () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
+                )
+        );
+        return 1L;
+    }
+
+    @Override
+    @Transactional
+    public long cancelLikeBoard(Long boardId, Long requesterId) {
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_BOARD));
+        board.cancelLikeBoard(requesterId);
+
+        return 1L;
     }
 }

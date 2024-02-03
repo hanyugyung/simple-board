@@ -16,5 +16,9 @@ public interface BoardService {
 
     long createComment(Long boardId, CommentDomainDto.CreateCommentCommand command, Long requesterId);
 
-    long deleteComment(Long boardId, Long commentId, Long id);
+    long deleteComment(Long boardId, Long commentId);
+
+    long likeBoard(Long boardId, Long requesterId);
+
+    long cancelLikeBoard(Long boardId, Long requesterId);
 }

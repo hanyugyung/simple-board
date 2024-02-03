@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.example.han.common.exception.InvalidParameterException;
 import org.example.han.domain.Base;
 import org.example.han.domain.board.comment.Comment;
+import org.example.han.domain.board.like.LikeBoard;
 import org.example.han.domain.user.User;
 import org.example.han.interfaces.CommonResponse;
 import org.springframework.util.StringUtils;
@@ -37,6 +38,9 @@ public class Board extends Base {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikeBoard> likeBoardList = new ArrayList<>();
 
     public Board(String title, String content, User createUser) {
         if(!StringUtils.hasText(title) || createUser == null)
@@ -70,5 +74,21 @@ public class Board extends Base {
                 .findAny()
                 .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.NOT_FOUND_COMMENT));
         this.commentList.remove(target);
+    }
+
+    public void likeBoard(User user) {
+        if(this.likeBoardList.stream()
+                .anyMatch(like -> user.getId().equals(like.getCreatedBy().getId()))) {
+            throw new InvalidParameterException(CommonResponse.CustomError.ALREADY_LIKED);
+        }
+        this.likeBoardList.add(new LikeBoard(user, this));
+    }
+
+    public void cancelLikeBoard(Long userId) {
+        LikeBoard target = this.likeBoardList.stream()
+                .filter(like -> userId.equals(like.getCreatedBy().getId()))
+                .findAny()
+                .orElseThrow(() -> new InvalidParameterException(CommonResponse.CustomError.ALREADY_CANCELED));
+        this.likeBoardList.remove(target);
     }
 }

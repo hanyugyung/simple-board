@@ -134,7 +134,41 @@ public class BoardApiController {
             , @AuthenticationPrincipal AccessUser accessUser
     ) {
         return ResponseEntity.ok(
-                CommonResponse.success(boardService.deleteComment(boardId, commentId, accessUser.getId()))
+                CommonResponse.success(boardService.deleteComment(boardId, commentId))
+        );
+    }
+
+    @Operation(summary = "좋아요", description = "특정 게시글 좋아요 api 입니다.")
+    @SecurityRequirement(name = "Token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
+    })
+    @PostMapping("/{board-id}/like-board")
+    public ResponseEntity<CommonResponse<Long>> likeBoard(
+            @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token // TODO 댓글은 인증뺄까....
+            , @PathVariable(name = "board-id") Long boardId
+            , @AuthenticationPrincipal AccessUser accessUser
+    ) {
+        return ResponseEntity.ok(
+                CommonResponse.success(boardService.likeBoard(boardId, accessUser.getId()))
+        );
+    }
+
+    @Operation(summary = "좋아요 취소", description = "특정 게시글 좋아요 취소 api 입니다.")
+    @SecurityRequirement(name = "Token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = CommonResponse.class)))
+    })
+    @DeleteMapping("/{board-id}/like-board")
+    public ResponseEntity<CommonResponse<Long>> cancelLikeBoard(
+            @Parameter(hidden = true) @RequestHeader(name = "Token") @NotBlank String token // TODO 댓글은 인증뺄까....
+            , @PathVariable(name = "board-id") Long boardId
+            , @AuthenticationPrincipal AccessUser accessUser
+    ) {
+        return ResponseEntity.ok(
+                CommonResponse.success(boardService.cancelLikeBoard(boardId, accessUser.getId()))
         );
     }
 }

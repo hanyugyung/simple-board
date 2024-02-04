@@ -24,15 +24,18 @@ public class CommentDomainDto {
         private Long id;
         private String comment;
         private ZonedDateTime createdAt;
-        private String createUserLoginId;
+        private Long createUserId;
         private String createUserName;
+        private String profileFilePath;
 
         public static GetCommentInfo of(Comment comment) {
-            return new GetCommentInfo(comment.getId()
+            return new GetCommentInfo(
+                    comment.getId()
                     , comment.getComment()
                     , comment.getCreatedAt()
-                    , comment.getCreatedBy().getLoginId()
+                    , comment.getCreatedBy().getId()
                     , comment.getCreatedBy().getName()
+                    , comment.getCreatedBy().getProfileFilePath()
             );
         }
     }

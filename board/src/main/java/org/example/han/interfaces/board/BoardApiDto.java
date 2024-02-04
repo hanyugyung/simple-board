@@ -107,16 +107,18 @@ public class BoardApiDto {
         private String comment;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
         private ZonedDateTime createdAt;
-        private String createUserId;
+        private Long createUserId;
         private String createUserName;
+        private String profileImageUrl;
 
         public static GetCommentResponse from(CommentDomainDto.GetCommentInfo dto) {
             return new GetCommentResponse(
                     dto.getId()
                     , dto.getComment()
                     , dto.getCreatedAt()
-                    , dto.getCreateUserLoginId()
+                    , dto.getCreateUserId()
                     , dto.getCreateUserName()
+                    , dto.getProfileFilePath()
             );
         }
     }

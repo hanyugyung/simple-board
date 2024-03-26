@@ -34,11 +34,12 @@ public class FileServiceImpl implements FileService {
                 () -> new IllegalStateException("논리적으로 절대 오면 안되는 곳...그치만 올 수도 있는 곳")
         );
 
-        String absPath = Paths.get("").toAbsolutePath() + File.separator + uploadPath + File.separator;
-        String filePath = absPath + UUID.randomUUID() + command.getExtension();
-        System.out.println("filePath : " + filePath);
+        String relativePath =uploadPath+"/"+UUID.randomUUID() + command.getExtension();
+        String savePath = new File(Paths.get("").toAbsolutePath().toFile(), relativePath).getAbsolutePath();
+        System.out.println("savePath : " + savePath);
 
-        File uploadedFile = new File(filePath);
+
+        File uploadedFile = new File(savePath);
         if(!uploadedFile.exists()) {
             uploadedFile.mkdirs();
         }
@@ -46,7 +47,7 @@ public class FileServiceImpl implements FileService {
         command.getFile().transferTo(uploadedFile);
 
         return FileDomainDto.UploadFileInfo.of(
-                fileRepository.save(command.toEntity(filePath, createUser))
+                fileRepository.save(command.toEntity(relativePath, createUser))
         );
     }
 }

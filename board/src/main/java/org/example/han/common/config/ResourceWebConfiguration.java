@@ -15,10 +15,8 @@ public class ResourceWebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/Users/user/Documents/dev/simple-board/board/upload-file/**")
-//                .addResourceLocations("file:///" + "/Users/user/Documents/dev/simple-board/board/upload-file/");
         File currentDir = new File("");
-        registry.addResourceHandler(currentDir.getAbsolutePath()+"/upload-file/**")
+        registry.addResourceHandler("/upload-file/**")
                 .addResourceLocations("file:///" + currentDir.getAbsolutePath()+"/upload-file/");
     }
 }
